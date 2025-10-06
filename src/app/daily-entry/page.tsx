@@ -4,7 +4,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
-import { Feeling, AVAILABLE_TAGS, Tag } from '@/types/database'
+import { Feeling, AVAILABLE_TAGS, Tag, Database } from '@/types/database'
+
+type Entry = Database['public']['Tables']['entries']['Row']
 import Navigation from '@/components/Navigation'
 
 export default function DailyEntryPage() {
@@ -30,10 +32,11 @@ export default function DailyEntryPage() {
       .maybeSingle()
 
     if (data && !error) {
+      const entry = data as Entry
       setHasEntryToday(true)
-      setContent(data.content || '')
-      setFeeling(data.feeling)
-      setSelectedTags(data.tags || [])
+      setContent(entry.content || '')
+      setFeeling(entry.feeling)
+      setSelectedTags(entry.tags || [])
     }
   }, [user])
 

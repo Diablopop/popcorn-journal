@@ -4,14 +4,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
+import { Database } from '@/types/database'
 import Navigation from '@/components/Navigation'
 
-interface Profile {
-  id: string
-  email: string
-  reminder_time: string | null
-  reminder_frequency: number | null
-}
+type Profile = Database['public']['Tables']['profiles']['Row']
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
@@ -35,8 +31,11 @@ export default function ProfilePage() {
         .maybeSingle()
 
       if (error) throw error
-      setProfile(data)
-      setEmail(data.email)
+      if (data) {
+        const profile = data as Profile
+        setProfile(profile)
+        setEmail(profile.email)
+      }
     } catch (error) {
       console.error('Error fetching profile:', error)
     }
