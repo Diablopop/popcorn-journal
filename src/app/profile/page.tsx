@@ -24,12 +24,6 @@ export default function ProfilePage() {
   const { user, signOut } = useAuth()
   const router = useRouter()
 
-  useEffect(() => {
-    if (user) {
-      fetchProfile()
-    }
-  }, [user, fetchProfile])
-
   const fetchProfile = useCallback(async () => {
     if (!user) return
 
@@ -47,6 +41,12 @@ export default function ProfilePage() {
       console.error('Error fetching profile:', error)
     }
   }, [user])
+
+  useEffect(() => {
+    if (user) {
+      fetchProfile()
+    }
+  }, [user, fetchProfile])
 
   const handleUpdateEmail = async (e: React.FormEvent) => {
     e.preventDefault()

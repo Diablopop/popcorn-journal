@@ -16,12 +16,6 @@ export default function DailyEntryPage() {
   const { user } = useAuth()
   const router = useRouter()
 
-  useEffect(() => {
-    if (user) {
-      checkTodayEntry()
-    }
-  }, [user, checkTodayEntry])
-
   const checkTodayEntry = useCallback(async () => {
     if (!user) return
 
@@ -42,6 +36,12 @@ export default function DailyEntryPage() {
       setSelectedTags(data.tags || [])
     }
   }, [user])
+
+  useEffect(() => {
+    if (user) {
+      checkTodayEntry()
+    }
+  }, [user, checkTodayEntry])
 
   const handleTagToggle = (tag: Tag) => {
     setSelectedTags(prev => 
