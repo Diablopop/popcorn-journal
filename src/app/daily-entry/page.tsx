@@ -27,7 +27,7 @@ export default function DailyEntryPage() {
       .eq('user_id', user.id)
       .gte('created_at', `${today}T00:00:00`)
       .lte('created_at', `${today}T23:59:59`)
-      .single()
+      .maybeSingle()
 
     if (data && !error) {
       setHasEntryToday(true)
