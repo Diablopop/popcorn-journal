@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -16,7 +16,6 @@ interface Profile {
 export default function ProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [email, setEmail] = useState('')
-  const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -29,9 +28,9 @@ export default function ProfilePage() {
     if (user) {
       fetchProfile()
     }
-  }, [user])
+  }, [user, fetchProfile])
 
-  const fetchProfile = async () => {
+  const fetchProfile = useCallback(async () => {
     if (!user) return
 
     try {
@@ -47,7 +46,7 @@ export default function ProfilePage() {
     } catch (error) {
       console.error('Error fetching profile:', error)
     }
-  }
+  }, [user])
 
   const handleUpdateEmail = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -73,8 +72,8 @@ export default function ProfilePage() {
       if (profileError) throw profileError
 
       setMessage('Email updated successfully! Please check your new email for verification.')
-    } catch (error: any) {
-      setError(error.message)
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
       setLoading(false)
     }
@@ -101,11 +100,10 @@ export default function ProfilePage() {
       if (error) throw error
 
       setMessage('Password updated successfully!')
-      setCurrentPassword('')
       setNewPassword('')
       setConfirmPassword('')
-    } catch (error: any) {
-      setError(error.message)
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
       setLoading(false)
     }

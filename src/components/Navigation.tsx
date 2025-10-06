@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext'
 
 export default function Navigation() {
   const pathname = usePathname()
-  const { user, signOut } = useAuth()
+  const { user } = useAuth()
 
   if (!user) return null
 

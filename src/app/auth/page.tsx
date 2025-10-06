@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
-import Link from 'next/link'
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true)
@@ -36,7 +35,7 @@ export default function AuthPage() {
           }, 100)
         }
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)

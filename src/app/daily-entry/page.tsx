@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -20,9 +20,9 @@ export default function DailyEntryPage() {
     if (user) {
       checkTodayEntry()
     }
-  }, [user])
+  }, [user, checkTodayEntry])
 
-  const checkTodayEntry = async () => {
+  const checkTodayEntry = useCallback(async () => {
     if (!user) return
 
     const today = new Date().toISOString().split('T')[0]
@@ -41,7 +41,7 @@ export default function DailyEntryPage() {
       setFeeling(data.feeling)
       setSelectedTags(data.tags || [])
     }
-  }
+  }, [user])
 
   const handleTagToggle = (tag: Tag) => {
     setSelectedTags(prev => 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns'
@@ -25,9 +25,9 @@ export default function HistoryPage() {
     if (user) {
       fetchEntries()
     }
-  }, [user, currentDate])
+  }, [user, fetchEntries])
 
-  const fetchEntries = async () => {
+  const fetchEntries = useCallback(async () => {
     if (!user) return
 
     setLoading(true)
@@ -50,7 +50,7 @@ export default function HistoryPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user, currentDate])
 
   const handleDateClick = (date: Date) => {
     const entry = entries.find(entry => 
