@@ -5,6 +5,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns'
 import Navigation from '@/components/Navigation'
+import Header from '@/components/Header'
 
 interface Entry {
   id: string
@@ -87,6 +88,7 @@ export default function HistoryPage() {
 
   return (
     <div className="min-h-screen bg-white pb-20">
+      <Header />
       <div className="max-w-md mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">

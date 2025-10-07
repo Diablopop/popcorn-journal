@@ -10,6 +10,7 @@ type Entry = Database['public']['Tables']['entries']['Row']
 type EntryInsert = Database['public']['Tables']['entries']['Insert']
 type EntryUpdate = Database['public']['Tables']['entries']['Update']
 import Navigation from '@/components/Navigation'
+import Header from '@/components/Header'
 
 export default function DailyEntryPage() {
   const [content, setContent] = useState('')
@@ -129,6 +130,7 @@ export default function DailyEntryPage() {
 
   return (
     <div className="min-h-screen bg-white pb-20">
+      <Header />
       <div className="max-w-md mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">

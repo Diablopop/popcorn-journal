@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Database } from '@/types/database'
 import Navigation from '@/components/Navigation'
+import Header from '@/components/Header'
 
 type Profile = Database['public']['Tables']['profiles']['Row']
 
@@ -123,6 +124,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-white pb-20">
+      <Header />
       <div className="max-w-md mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-black mb-8">Profile</h1>
 
