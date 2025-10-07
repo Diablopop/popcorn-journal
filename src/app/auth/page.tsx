@@ -78,9 +78,14 @@ export default function AuthPage() {
         </div>
 
         {/* Description */}
-        <p className="text-gray-600 text-center mb-8 text-sm leading-relaxed">
+        <p className="text-gray-600 text-center mb-4 text-sm leading-relaxed">
           Popcorn Journal is a low-commitment journaling app where you write just a sentence or two each day. 
           Over time, these small entries add up to a meaningful record of your life.
+        </p>
+        
+        {/* Security Warning */}
+        <p className="text-gray-500 text-center mb-8 text-xs leading-relaxed">
+          This is a proof-of-concept. Please don't use a sensitive password when creating your account.
         </p>
 
         {/* Form */}
