@@ -11,7 +11,7 @@ export default function Navigation() {
   if (!user) return null
 
   const navItems = [
-    { href: '/daily-entry', label: 'Daily Entry' },
+    { href: '/daily-entry', label: 'Today' },
     { href: '/history', label: 'History' },
     { href: '/profile', label: 'Profile' },
   ]
