@@ -133,17 +133,16 @@ export default function HistoryPage() {
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}
               >
-                <span className={`relative z-10 ${isToday ? 'underline' : ''}`}>
-                  {format(day, 'd')}
-                </span>
-                {entry && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
-                      <span className="text-white text-sm font-medium">
-                        {format(day, 'd')}
-                      </span>
-                    </div>
+                {entry ? (
+                  <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                    <span className={`text-white text-sm font-medium ${isToday ? 'underline' : ''}`}>
+                      {format(day, 'd')}
+                    </span>
                   </div>
+                ) : (
+                  <span className={`${isToday ? 'underline' : ''}`}>
+                    {format(day, 'd')}
+                  </span>
                 )}
               </button>
             )
