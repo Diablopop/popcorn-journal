@@ -74,7 +74,8 @@ export const AVAILABLE_TAGS = [
   'Sex',
   'Vacation',
   'Alcohol',
-  'Dine out'
+  'Dine out',
+  'Sick'
 ] as const
 
 export type Tag = typeof AVAILABLE_TAGS[number]
