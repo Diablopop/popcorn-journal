@@ -47,8 +47,32 @@ export default function AuthPage() {
       <div className="max-w-md mx-auto w-full">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 mx-auto mb-4 bg-black rounded-full flex items-center justify-center">
-            <div className="w-8 h-8 bg-white rounded-full"></div>
+          <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <svg 
+              width="64" 
+              height="64" 
+              viewBox="0 0 460 475" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              className="drop-shadow-sm"
+            >
+              <g clipPath="url(#clip0_7_86)">
+                <ellipse cx="118.079" cy="263.48" rx="118.079" ry="120.277" fill="black"/>
+                <circle cx="212.291" cy="106.774" r="106.774" fill="black"/>
+                <ellipse cx="349.212" cy="163.301" rx="86.675" ry="101.121" fill="black"/>
+                <circle cx="280.124" cy="213.547" r="86.675" fill="black"/>
+                <ellipse cx="298.966" cy="354.865" rx="125.616" ry="104.889" transform="rotate(-29.1165 298.966 354.865)" fill="black"/>
+                <ellipse cx="132.489" cy="258.463" rx="104.854" ry="106.806" fill="white"/>
+                <circle cx="216.149" cy="119.309" r="94.8143" fill="white"/>
+                <ellipse cx="337.734" cy="169.505" rx="76.9669" ry="89.7948" fill="white"/>
+                <ellipse cx="293.116" cy="339.613" rx="111.546" ry="93.1411" transform="rotate(-29.1165 293.116 339.613)" fill="white"/>
+              </g>
+              <defs>
+                <clipPath id="clip0_7_86">
+                  <rect width="460" height="475" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
           </div>
           <h1 className="text-2xl font-bold text-black">Popcorn Journal</h1>
         </div>
