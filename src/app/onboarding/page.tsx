@@ -7,8 +7,8 @@ import { supabase } from '@/lib/supabase'
 
 const onboardingSteps = [
   {
-    title: "Write just 1–3 sentences a day.",
-    description: "Keep it simple. No pressure to write long entries.",
+    title: "Write just 1 to 3 sentences a day.",
+    description: "Keep it simple—no pressure to write long entries.",
     icon: "✍️"
   },
   {
