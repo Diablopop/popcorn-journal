@@ -16,7 +16,7 @@ const onboardingSteps = [
   },
   {
     title: "Look back with your calendar",
-    description: "Look back at your entries to remember what happened.",
+    description: "See all your entries—a few sentences a day add up over time.",
     icon: "📅"
   }
 ]
