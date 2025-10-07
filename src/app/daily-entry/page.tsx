@@ -36,7 +36,7 @@ export default function DailyEntryPage() {
       setHasEntryToday(true)
       setContent(entry.content || '')
       setFeeling(entry.feeling)
-      setSelectedTags(entry.tags || [])
+      setSelectedTags((entry.tags as Tag[]) || [])
     }
   }, [user])
 
