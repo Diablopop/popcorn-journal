@@ -1,9 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/contexts/AuthContext'
-import { supabase } from '@/lib/supabase'
 
 const onboardingSteps = [
   {
@@ -23,38 +21,11 @@ const onboardingSteps = [
   }
 ]
 
-export default function OnboardingPage() {
+export default function OnboardingPreviewPage() {
   const [currentStep, setCurrentStep] = useState(0)
   const [reminderTime, setReminderTime] = useState('09:00')
   const [reminderFrequency, setReminderFrequency] = useState(1)
-  const [loading, setLoading] = useState(false)
-  const { user, loading: authLoading } = useAuth()
   const router = useRouter()
-
-  // Handle redirect to auth if no user
-  useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/auth')
-    }
-  }, [authLoading, user, router])
-
-  // Show loading while auth is being determined
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-gray-600">Loading...</div>
-      </div>
-    )
-  }
-
-  // Show redirecting message if no user
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-gray-600">Redirecting...</div>
-      </div>
-    )
-  }
 
   const handleNext = () => {
     if (currentStep < onboardingSteps.length - 1) {
@@ -64,43 +35,12 @@ export default function OnboardingPage() {
     }
   }
 
-  const handleComplete = async () => {
-    if (!user) {
-      console.error('No user found, redirecting to auth')
-      router.push('/auth')
-      return
-    }
-    
-    setLoading(true)
-    try {
-      // Create user profile
-      const { error } = await supabase
-        .from('profiles')
-        .insert({
-          id: user.id,
-          email: user.email!,
-          reminder_time: reminderTime,
-          reminder_frequency: reminderFrequency,
-        })
-
-      if (error) {
-        console.error('Error creating profile:', error)
-        alert('Error creating profile: ' + error.message)
-        return
-      }
-
-      console.log('Profile created successfully')
-      router.push('/daily-entry')
-    } catch (err) {
-      console.error('Error completing onboarding:', err)
-      alert('Error completing onboarding: ' + err)
-    } finally {
-      setLoading(false)
-    }
+  const handleComplete = () => {
+    alert('Onboarding preview complete! This would normally redirect to the daily entry page.')
   }
 
   const handleSkip = () => {
-    router.push('/daily-entry')
+    alert('Onboarding skipped! This would normally redirect to the daily entry page.')
   }
 
   if (currentStep < onboardingSteps.length) {
@@ -181,10 +121,9 @@ export default function OnboardingPage() {
         <div className="mt-8 space-y-4">
           <button
             onClick={handleComplete}
-            disabled={loading}
-            className="w-full bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+            className="w-full bg-black text-white py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
           >
-            {loading ? 'Setting up...' : 'Complete Setup'}
+            Complete Setup
           </button>
           
           <button
