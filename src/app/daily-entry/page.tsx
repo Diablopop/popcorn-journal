@@ -64,6 +64,7 @@ export default function DailyEntryPage() {
 
     setLoading(true)
     try {
+      // Always update existing entry or create new one
       const entryData: EntryInsert = {
         user_id: user.id,
         content: content.trim() || null,
@@ -94,7 +95,7 @@ export default function DailyEntryPage() {
           return
         }
       } else {
-        // Create new entry
+        // Create new entry (only if no entry exists for today)
         const { error } = await supabase
           .from('entries')
           .insert(entryData)
@@ -131,7 +132,12 @@ export default function DailyEntryPage() {
       <div className="max-w-md mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-lg text-gray-500 italic">Daily Entry {today}</h1>
+          <h1 className="text-lg text-gray-500 italic">
+            {hasEntryToday ? 'Edit Today\'s Entry' : 'Daily Entry'} {today}
+          </h1>
+          {hasEntryToday && (
+            <p className="text-sm text-gray-400 mt-1">You already have an entry for today. You can edit it below.</p>
+          )}
         </div>
 
         {/* What happened today? */}
@@ -192,7 +198,7 @@ export default function DailyEntryPage() {
             disabled={loading}
             className="bg-black text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
           >
-            {loading ? 'Saving...' : 'SUBMIT'}
+            {loading ? 'Saving...' : (hasEntryToday ? 'UPDATE' : 'SUBMIT')}
           </button>
           
           <button
