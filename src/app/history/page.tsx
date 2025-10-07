@@ -119,22 +119,27 @@ export default function HistoryPage() {
             const entry = getEntryForDate(day)
             const isCurrentMonth = isSameMonth(day, currentDate)
             const isToday = isSameDay(day, new Date())
+            const isSelected = selectedEntry && isSameDay(new Date(selectedEntry.created_at), day)
             
             return (
               <button
                 key={day.toISOString()}
                 onClick={() => handleDateClick(day)}
-                className={`aspect-square flex items-center justify-center text-sm transition-colors ${
+                className={`aspect-square flex items-center justify-center text-sm transition-colors relative ${
                   !isCurrentMonth
                     ? 'text-gray-300'
-                    : entry
-                    ? 'bg-black text-white hover:bg-gray-800'
-                    : isToday
+                    : isSelected
                     ? 'bg-gray-100 text-black hover:bg-gray-200'
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}
               >
                 {format(day, 'd')}
+                {entry && (
+                  <div className="absolute bottom-1 w-2 h-2 bg-black rounded-full"></div>
+                )}
+                {isToday && (
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4 h-0.5 bg-black"></div>
+                )}
               </button>
             )
           })}
