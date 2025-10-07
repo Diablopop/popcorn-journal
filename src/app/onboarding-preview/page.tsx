@@ -57,15 +57,14 @@ export default function OnboardingPreviewPage() {
           <div className="text-6xl mb-8">{step.icon}</div>
           <h1 className="text-2xl font-bold text-black mb-4">{step.title}</h1>
           {currentStep === 3 ? (
-            <div className="text-gray-600 mb-12 text-left">
-              <ul className="space-y-2">
+            <div className="text-gray-600 mb-12 text-center">
+              <div className="space-y-2">
                 {step.description.split(', ').map((item, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="text-black mr-2">•</span>
-                    <span>{item}</span>
-                  </li>
+                  <div key={index}>
+                    {item}
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           ) : (
             <p className="text-gray-600 mb-12 text-lg">{step.description}</p>
