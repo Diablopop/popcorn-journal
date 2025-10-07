@@ -5,17 +5,17 @@ import { useRouter } from 'next/navigation'
 
 const onboardingSteps = [
   {
-    title: "Write just 1 to 3 sentences a day.",
+    title: "Write just 1 to 3 sentences a day",
     description: "Keep it simple—no pressure to write long entries.",
     icon: "✍️"
   },
   {
-    title: "Tag your days to spot trends.",
+    title: "Tag your days to spot trends",
     description: "Add tags like 'Work', 'Friends', or 'Exercise' to see patterns.",
     icon: "🏷️"
   },
   {
-    title: "Look back with your calendar.",
+    title: "Look back with your calendar",
     description: "Look back at your entries to remember what happened.",
     icon: "📅"
   }
