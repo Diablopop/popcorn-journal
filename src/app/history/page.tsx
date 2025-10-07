@@ -72,7 +72,19 @@ export default function HistoryPage() {
 
   const monthStart = startOfMonth(currentDate)
   const monthEnd = endOfMonth(currentDate)
-  const calendarDays = eachDayOfInterval({ start: monthStart, end: monthEnd })
+  const monthDays = eachDayOfInterval({ start: monthStart, end: monthEnd })
+  
+  // Create calendar grid with proper day-of-week alignment
+  const calendarDays = []
+  
+  // Add empty cells for days before the first day of the month
+  const firstDayOfWeek = monthStart.getDay() // 0 = Sunday, 1 = Monday, etc.
+  for (let i = 0; i < firstDayOfWeek; i++) {
+    calendarDays.push(null) // null represents empty cells
+  }
+  
+  // Add all days of the month
+  calendarDays.push(...monthDays)
 
   const goToPreviousMonth = () => {
     setCurrentDate(subMonths(currentDate, 1))
@@ -121,7 +133,17 @@ export default function HistoryPage() {
             </div>
           ))}
           
-          {calendarDays.map((day) => {
+          {calendarDays.map((day, index) => {
+            // Handle empty cells (null values)
+            if (day === null) {
+              return (
+                <div
+                  key={`empty-${index}`}
+                  className="aspect-square flex items-center justify-center"
+                />
+              )
+            }
+            
             const entry = getEntryForDate(day)
             const isCurrentMonth = isSameMonth(day, currentDate)
             const isToday = isSameDay(day, new Date())
