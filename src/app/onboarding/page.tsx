@@ -78,23 +78,22 @@ export default function OnboardingPage() {
     
     setLoading(true)
     try {
-      // Create user profile
+      // Update user profile with onboarding preferences
       const { error } = await supabase
         .from('profiles')
-        .insert({
-          id: user.id,
-          email: user.email!,
+        .update({
           reminder_time: reminderTime,
           reminder_frequency: reminderFrequency,
         })
+        .eq('id', user.id)
 
       if (error) {
-        console.error('Error creating profile:', error)
-        alert('Error creating profile: ' + error.message)
+        console.error('Error updating profile:', error)
+        alert('Error updating profile: ' + error.message)
         return
       }
 
-      console.log('Profile created successfully')
+      console.log('Profile updated successfully')
       router.push('/daily-entry')
     } catch (err) {
       console.error('Error completing onboarding:', err)
