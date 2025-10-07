@@ -20,7 +20,7 @@ export default function HistoryPage() {
   const [entries, setEntries] = useState<Entry[]>([])
   const [selectedEntry, setSelectedEntry] = useState<Entry | null>(null)
   const [loading, setLoading] = useState(true)
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
 
   const fetchEntries = useCallback(async () => {
     if (!user) return
@@ -48,10 +48,14 @@ export default function HistoryPage() {
   }, [user, currentDate])
 
   useEffect(() => {
-    if (user) {
-      fetchEntries()
+    if (!authLoading) {
+      if (user) {
+        fetchEntries()
+      } else {
+        setLoading(false)
+      }
     }
-  }, [user, fetchEntries])
+  }, [user, authLoading, fetchEntries])
 
   const handleDateClick = (date: Date) => {
     const entry = entries.find(entry => 

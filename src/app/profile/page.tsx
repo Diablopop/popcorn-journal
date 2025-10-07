@@ -18,7 +18,7 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const { user, signOut } = useAuth()
+  const { user, signOut, loading: authLoading } = useAuth()
   const router = useRouter()
 
   const fetchProfile = useCallback(async () => {
@@ -43,10 +43,14 @@ export default function ProfilePage() {
   }, [user])
 
   useEffect(() => {
-    if (user) {
-      fetchProfile()
+    if (!authLoading) {
+      if (user) {
+        fetchProfile()
+      } else {
+        router.push('/auth')
+      }
     }
-  }, [user, fetchProfile])
+  }, [user, authLoading, fetchProfile, router])
 
   const handleUpdateEmail = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -112,6 +116,19 @@ export default function ProfilePage() {
   const handleSignOut = async () => {
     await signOut()
     router.push('/auth')
+  }
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-gray-600">Loading...</div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    router.push('/auth')
+    return null
   }
 
   if (!profile) {
