@@ -133,12 +133,15 @@ export default function DailyEntryPage() {
       <Header />
       <div className="max-w-md mx-auto px-4 py-8">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-lg text-gray-500 italic">
-            {hasEntryToday ? 'Edit Today\'s Entry' : 'Daily Entry'} {today}
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-black mb-2">
+            {hasEntryToday ? 'Edit Today\'s Entry' : 'Daily Entry'}
           </h1>
+          <p className="text-sm text-gray-500">
+            {today}
+          </p>
           {hasEntryToday && (
-            <p className="text-sm text-gray-400 mt-1">You already have an entry for today. You can edit it below.</p>
+            <p className="text-sm text-gray-400 mt-2">You already have an entry for today. You can edit it below.</p>
           )}
         </div>
 
