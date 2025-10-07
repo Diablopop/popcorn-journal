@@ -135,11 +135,8 @@ export default function DailyEntryPage() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-black mb-2">
-            {hasEntryToday ? 'Edit Today\'s Entry' : 'Daily Entry'}
+            {hasEntryToday ? 'Edit today\'s entry' : 'Daily entry'} - {today}
           </h1>
-          <p className="text-sm text-gray-500">
-            {today}
-          </p>
           {hasEntryToday && (
             <p className="text-sm text-gray-400 mt-2">You already have an entry for today. You can edit it below.</p>
           )}
