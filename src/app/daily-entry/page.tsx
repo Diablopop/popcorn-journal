@@ -8,6 +8,7 @@ import { Feeling, AVAILABLE_TAGS, Tag, Database } from '@/types/database'
 
 type Entry = Database['public']['Tables']['entries']['Row']
 type EntryInsert = Database['public']['Tables']['entries']['Insert']
+type EntryUpdate = Database['public']['Tables']['entries']['Update']
 import Navigation from '@/components/Navigation'
 
 export default function DailyEntryPage() {
@@ -74,9 +75,15 @@ export default function DailyEntryPage() {
 
       if (hasEntryToday) {
         // Update existing entry
+        const updateData: EntryUpdate = {
+          content: content.trim() || null,
+          feeling,
+          tags: selectedTags.length > 0 ? selectedTags : null,
+        }
+        
         const { error } = await supabase
           .from('entries')
-          .update(entryData)
+          .update(updateData)
           .eq('user_id', user.id)
           .gte('created_at', new Date().toISOString().split('T')[0] + 'T00:00:00')
           .lte('created_at', new Date().toISOString().split('T')[0] + 'T23:59:59')
