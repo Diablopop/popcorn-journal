@@ -67,7 +67,7 @@ export default function DailyEntryPage() {
         content: content.trim() || null,
         feeling,
         tags: selectedTags.length > 0 ? selectedTags : null,
-      }
+      } as any
 
       console.log('Submitting entry:', entryData)
 
