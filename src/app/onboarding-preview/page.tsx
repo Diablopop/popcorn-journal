@@ -18,6 +18,11 @@ const onboardingSteps = [
     title: "Look back with your calendar",
     description: "See all your entries—a few sentences a day add up over time.",
     icon: "📅"
+  },
+  {
+    title: "New features coming soon!",
+    description: "Get daily reminders, Add custom tags, Search and comment on past entries, Tag your location, Share a photo, See personal trends with charts",
+    icon: "🚀"
   }
 ]
 
@@ -51,7 +56,20 @@ export default function OnboardingPreviewPage() {
         <div className="max-w-md mx-auto w-full text-center">
           <div className="text-6xl mb-8">{step.icon}</div>
           <h1 className="text-2xl font-bold text-black mb-4">{step.title}</h1>
-          <p className="text-gray-600 mb-12 text-lg">{step.description}</p>
+          {currentStep === 3 ? (
+            <div className="text-gray-600 mb-12 text-left">
+              <ul className="space-y-2">
+                {step.description.split(', ').map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="text-black mr-2">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p className="text-gray-600 mb-12 text-lg">{step.description}</p>
+          )}
           
           <div className="space-y-4">
             <button
