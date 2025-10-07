@@ -149,7 +149,7 @@ export default function DailyEntryPage() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Write a sentence or two..."
-            className="w-full h-24 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none"
+            className="w-full h-24 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent resize-none text-gray-900"
           />
         </div>
 
