@@ -24,15 +24,24 @@ export default function DailyEntryPage() {
   const checkTodayEntry = useCallback(async () => {
     if (!user) return
 
-    const today = new Date().toISOString().split('T')[0]
+    const now = new Date()
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+    const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
     
     const { data, error } = await supabase
       .from('entries')
       .select('*')
       .eq('user_id', user.id)
-      .gte('created_at', `${today}T00:00:00`)
-      .lte('created_at', `${today}T23:59:59`)
+      .gte('created_at', todayStart.toISOString())
+      .lte('created_at', todayEnd.toISOString())
       .maybeSingle()
+
+    console.log('Checking for today\'s entry:', {
+      todayStart: todayStart.toISOString(),
+      todayEnd: todayEnd.toISOString(),
+      data,
+      error
+    })
 
     if (data && !error) {
       const entry = data as Entry
@@ -40,6 +49,12 @@ export default function DailyEntryPage() {
       setContent(entry.content || '')
       setFeeling(entry.feeling)
       setSelectedTags((entry.tags as Tag[]) || [])
+    } else {
+      // No entry for today - reset form to blank state
+      setHasEntryToday(false)
+      setContent('')
+      setFeeling(null)
+      setSelectedTags([])
     }
   }, [user])
 
