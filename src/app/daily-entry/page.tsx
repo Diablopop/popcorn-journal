@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase'
 import { Feeling, AVAILABLE_TAGS, Tag, Database } from '@/types/database'
 
 type Entry = Database['public']['Tables']['entries']['Row']
+type EntryInsert = Database['public']['Tables']['entries']['Insert']
 import Navigation from '@/components/Navigation'
 
 export default function DailyEntryPage() {
@@ -62,12 +63,12 @@ export default function DailyEntryPage() {
 
     setLoading(true)
     try {
-      const entryData = {
+      const entryData: EntryInsert = {
         user_id: user.id,
         content: content.trim() || null,
         feeling,
         tags: selectedTags.length > 0 ? selectedTags : null,
-      } as any
+      }
 
       console.log('Submitting entry:', entryData)
 
