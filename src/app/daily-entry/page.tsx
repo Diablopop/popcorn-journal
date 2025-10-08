@@ -98,12 +98,22 @@ export default function DailyEntryPage() {
           tags: selectedTags.length > 0 ? selectedTags : null,
         }
         
+        const now = new Date()
+        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
+        const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59)
+        
+        console.log('Updating entry with:', {
+          updateData,
+          todayStart: todayStart.toISOString(),
+          todayEnd: todayEnd.toISOString()
+        })
+
         const { error } = await supabase
           .from('entries')
           .update(updateData)
           .eq('user_id', user.id)
-          .gte('created_at', new Date().toISOString().split('T')[0] + 'T00:00:00')
-          .lte('created_at', new Date().toISOString().split('T')[0] + 'T23:59:59')
+          .gte('created_at', todayStart.toISOString())
+          .lte('created_at', todayEnd.toISOString())
 
         if (error) {
           console.error('Error updating entry:', error)
