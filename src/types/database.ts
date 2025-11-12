@@ -73,6 +73,7 @@ export const AVAILABLE_TAGS = [
   'Creative',
   'Sex',
   'Vacation',
+  'Travel',
   'Alcohol',
   'Dine out',
   'Sick'

@@ -1,9 +1,11 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns'
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isAfter, endOfDay } from 'date-fns'
+import { startOfDay } from 'date-fns'
 import Navigation from '@/components/Navigation'
 import Header from '@/components/Header'
 
@@ -13,14 +15,17 @@ interface Entry {
   feeling: string | null
   tags: string[] | null
   created_at: string
+  updated_at: string
 }
 
 export default function HistoryPage() {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [entries, setEntries] = useState<Entry[]>([])
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedEntry, setSelectedEntry] = useState<Entry | null>(null)
   const [loading, setLoading] = useState(true)
   const { user, loading: authLoading } = useAuth()
+  const router = useRouter()
 
   const fetchEntries = useCallback(async () => {
     if (!user) return
@@ -58,9 +63,14 @@ export default function HistoryPage() {
   }, [user, authLoading, fetchEntries])
 
   const handleDateClick = (date: Date) => {
+    const todayEnd = endOfDay(new Date())
+    if (isAfter(date, todayEnd)) {
+      return
+    }
     const entry = entries.find(entry => 
       isSameDay(new Date(entry.created_at), date)
     )
+    setSelectedDate(date)
     setSelectedEntry(entry || null)
   }
 
@@ -147,22 +157,35 @@ export default function HistoryPage() {
             const entry = getEntryForDate(day)
             const isCurrentMonth = isSameMonth(day, currentDate)
             const isToday = isSameDay(day, new Date())
-            const isSelected = selectedEntry && isSameDay(new Date(selectedEntry.created_at), day)
-            
+            const isSelected = selectedDate && isSameDay(selectedDate, day)
+            const isFuture = isAfter(day, endOfDay(new Date()))
+            const isAuthentic = entry
+              ? (() => {
+                  const createdDate = startOfDay(new Date(entry.created_at)).getTime()
+                  const updatedDate = entry.updated_at
+                    ? startOfDay(new Date(entry.updated_at)).getTime()
+                    : createdDate
+                  return createdDate === updatedDate
+                })()
+              : false
+
             return (
               <button
                 key={day.toISOString()}
                 onClick={() => handleDateClick(day)}
+                disabled={!isCurrentMonth || isFuture}
                 className={`aspect-square flex items-center justify-center text-sm transition-colors relative ${
                   !isCurrentMonth
                     ? 'text-gray-300'
+                    : isFuture
+                    ? 'text-gray-300 cursor-not-allowed'
                     : isSelected
                     ? 'bg-gray-100 text-black hover:bg-gray-200'
                     : 'text-gray-600 hover:bg-gray-50'
                 }`}
               >
                 {entry ? (
-                  <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isAuthentic ? 'bg-black' : 'bg-gray-700'}`}>
                     <span className={`text-white text-sm font-medium ${isToday ? 'underline' : ''}`}>
                       {format(day, 'd')}
                     </span>
@@ -178,10 +201,11 @@ export default function HistoryPage() {
         </div>
 
         {/* Selected Entry */}
-        {selectedEntry ? (
+        {selectedDate ? (
+          selectedEntry ? (
           <div className="bg-gray-50 rounded-lg p-4">
             <div className="text-sm text-gray-500 mb-2">
-              {format(new Date(selectedEntry.created_at), 'EEEE, MMMM d, yyyy')}
+                {format(selectedDate, 'EEEE, MMMM d, yyyy')}
             </div>
             
             {selectedEntry.content && (
@@ -210,17 +234,49 @@ export default function HistoryPage() {
                     </span>
                   ))}
                 </div>
-              </div>
+            </div>
             )}
+            
+            <div className="mt-6">
+              <button
+                onClick={() => {
+                  const dateParam = format(selectedDate, 'yyyy-MM-dd')
+                  router.push(`/history/${dateParam}`)
+                }}
+                className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+              >
+                Edit entry →
+              </button>
+            </div>
           </div>
         ) : (
-          <div className="text-center text-gray-500 py-8">
-            {entries.length === 0 
-              ? "No entries this month. Start writing to see them here!"
-              : "Click on a highlighted date to view your entry."
-            }
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="text-sm text-gray-500 mb-2">
+              {format(selectedDate, 'EEEE, MMMM d, yyyy')}
+            </div>
+            <p className="text-gray-700 mb-4">
+              No entry for this day.
+            </p>
+            <button
+              onClick={() => {
+                const dateParam = format(selectedDate, 'yyyy-MM-dd')
+                router.push(`/history/${dateParam}`)
+              }}
+              className="text-sm font-medium text-gray-600 hover:text-black transition-colors"
+            >
+              Add entry →
+            </button>
           </div>
-        )}
+        )
+        ) : (
+          <div className="text-center text-gray-500 py-8">
+              {entries.length === 0 
+                ? "No entries this month. Start writing to see them here!"
+                : "Click a date to view, edit, or add an entry."
+              }
+            </div>
+        )
+        }
       </div>
       
       <Navigation />

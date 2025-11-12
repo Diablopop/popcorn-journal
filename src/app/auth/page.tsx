@@ -85,7 +85,7 @@ export default function AuthPage() {
         
         {/* Security Warning */}
         <p className="text-gray-500 text-center mb-8 text-xs leading-relaxed">
-          This is a proof-of-concept. Please don't use a sensitive password when creating your account.
+          This is a proof-of-concept. Please don&apos;t use a sensitive password when creating your account.
         </p>
 
         {/* Form */}

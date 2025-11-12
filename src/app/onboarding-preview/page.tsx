@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 const onboardingSteps = [
   {
@@ -30,7 +29,6 @@ export default function OnboardingPreviewPage() {
   const [currentStep, setCurrentStep] = useState(0)
   const [reminderTime, setReminderTime] = useState('09:00')
   const [reminderFrequency, setReminderFrequency] = useState(1)
-  const router = useRouter()
 
   const handleNext = () => {
     if (currentStep < onboardingSteps.length - 1) {
