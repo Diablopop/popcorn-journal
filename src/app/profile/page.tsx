@@ -212,7 +212,7 @@ export default function ProfilePage() {
             onClick={handleSignOut}
             className="w-full text-red-600 hover:text-red-800 transition-colors py-3"
           >
-            Sign Out
+            Sign out
           </button>
         </div>
       </div>
